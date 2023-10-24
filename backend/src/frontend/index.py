@@ -33,12 +33,32 @@ class FrontendStack(Construct):
         cloudfront_distribution = cloudfront.CloudFrontWebDistribution(self, "AngularAppDistribution",
             origin_configs=[
                 cloudfront.SourceConfiguration(
-                    s3_origin_source=cloudfront.S3OriginConfig(s3_bucket_source=website_bucket),
-                    behaviors=[cloudfront.Behavior(is_default_behavior=True)]
+                    s3_origin_source=cloudfront.S3OriginConfig(
+                        s3_bucket_source=website_bucket
+                    ),
+                    behaviors=[
+                        cloudfront.Behavior(
+                            is_default_behavior=True,
+                            allowed_methods=cloudfront.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
+                            cached_methods=cloudfront.CloudFrontAllowedCachedMethods.GET_HEAD_OPTIONS,
+                            viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                            forwarded_values=cloudfront.CfnDistribution.ForwardedValuesProperty(
+                                query_string=True,
+                                headers=['Origin', 'Authorization', 'Host', 'Access-Control-Request-Headers', 'Access-Control-Request-Method'],
+                            ),
+                        ),
+                    ],
                 )
-            ]
+            ],
+            default_root_object="index.html",
+            error_configurations=[
+                {
+                    "errorCode": 404,
+                    "responseCode": 200,
+                    "responsePagePath": "/index.html",
+                }
+            ],
         )
-
         # Output the CloudFront distribution URL
         CfnOutput(self, "DistributionURL",
             value=cloudfront_distribution.distribution_domain_name
