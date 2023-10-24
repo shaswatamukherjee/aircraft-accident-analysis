@@ -16,8 +16,13 @@ class FrontendStack(Construct):
             "AngularAppBucket",
             removal_policy=RemovalPolicy.DESTROY,  # Use DESTROY carefully; it will delete the S3 bucket on stack deletion
             website_index_document="index.html",
-            website_error_document="index.html"
+            website_error_document="index.html",
+            public_read_access=True
         )
+        # execution_role = iam.Role(self, 'role',
+        #     assumed_by=iam.ServicePrincipal('apigateway.amazonaws.com'),
+        #     path='/service-role/'
+        # )
         public_read_statement = iam.PolicyStatement(
             actions=["s3:GetObject"],
             effect=iam.Effect.ALLOW,
@@ -30,6 +35,7 @@ class FrontendStack(Construct):
             sources=[s3_deployment.Source.asset("../angular-app/dist/angular-app")],  # Replace with the path to your Angular app's dist directory
             destination_bucket=website_bucket
         )
+        # website_bucket.grant_read(execution_role)
         cloudfront_distribution = cloudfront.CloudFrontWebDistribution(self, "AngularAppDistribution",
             origin_configs=[
                 cloudfront.SourceConfiguration(
@@ -44,7 +50,7 @@ class FrontendStack(Construct):
                             viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                             forwarded_values=cloudfront.CfnDistribution.ForwardedValuesProperty(
                                 query_string=True,
-                                headers=['Origin', 'Authorization', 'Host', 'Access-Control-Request-Headers', 'Access-Control-Request-Method'],
+                                headers=['Origin', 'Authorization', 'Access-Control-Request-Headers', 'Access-Control-Request-Method'],
                             ),
                         ),
                     ],

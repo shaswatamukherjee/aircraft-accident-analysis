@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { marker, tileLayer, map, Icon } from 'leaflet';
+import { marker, tileLayer, map, Icon, layerGroup } from 'leaflet';
 import { Observable } from 'rxjs';
 import { IQueryByYear } from 'src/app/interfaces/query.interface';
 import { CommonService } from 'src/app/services/common.service';
@@ -15,6 +15,7 @@ export class MapComponent  implements OnInit, OnChanges {
   errorMessage?: string;
   unplottableData?: IQueryByYear[];
   private map: any;
+  private markerLayer: any;
 
   constructor(private readonly queryService: QueryService, private readonly commonService: CommonService) {}
 
@@ -50,6 +51,7 @@ export class MapComponent  implements OnInit, OnChanges {
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
+    this.markerLayer = layerGroup().addTo(this.map);
   }
 
   /**
@@ -65,6 +67,8 @@ export class MapComponent  implements OnInit, OnChanges {
    * @param accidentData: IQueryByYear[]
    */
   private addMarkers(accidentData: IQueryByYear[]): void {
+    this.unplottableData = [];
+    this.markerLayer.clearLayers();
     accidentData.forEach((accident: IQueryByYear) => {
       if(accident.Latitude === null || accident.Longitude === null) {
         this.unplottableData?.push(JSON.parse(JSON.stringify(accident)));
@@ -72,6 +76,7 @@ export class MapComponent  implements OnInit, OnChanges {
         const description = this.getMarkerDescriptionData(accident);
         const mapMarker = marker([accident.Latitude, accident.Longitude]).addTo(this.map);
         mapMarker.bindPopup(`<b>${accident.Country || accident.Location}</b><br><br>${description}`);
+        this.markerLayer.addLayer(mapMarker);
       }
     });
   }

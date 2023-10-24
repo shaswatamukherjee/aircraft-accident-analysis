@@ -5,6 +5,12 @@ import subprocess
 from os import path, environ
 import base64
 
+cors_headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,GET",
+    "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent",
+}
+
 def lambda_handler(event, context):
     s3 = boto3.client('s3')
     try:
@@ -18,18 +24,21 @@ def lambda_handler(event, context):
         years_of_accident = df['Year'].drop_duplicates();
         return {
             'statusCode': 200,
+            'headers': cors_headers,
             'body': years_of_accident.to_json(orient='records')
         }
     except FileNotFoundError as e:
         print(f"File not found: {e}")
         return {
             'statusCode': 500,
+            'headers': cors_headers,
             'body': 'S3 File not found'
         }
     except pd.errors.EmptyDataError as e:
         print(f"Empty CSV file: {e}")
         return {
             'statusCode': 200,
+            'headers': cors_headers,
             'body': '[]'
         }
 
@@ -37,6 +46,7 @@ def lambda_handler(event, context):
         print(f"Error: {e}")
         return {
             'statusCode': 500,
+            'headers': cors_headers,
             'body': 'Internal Server Error'
         }
 
@@ -53,10 +63,12 @@ def verify_auth_token(event):
         if decodedAuthToken != 'admin:33fx0xy26e':
             return {
                 'statusCode': 401,
+                'headers': cors_headers,
                 'body': 'Not Authorized'
             }
     else:
         return {
             'statusCode': 401,
+            'headers': cors_headers,
             'body': 'Not Authorized'
         }

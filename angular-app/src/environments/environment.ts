@@ -1,4 +1,4 @@
 export const environment = {
-    queryAPI: 'http://localhost:9091/query',
-    yearsAPI: 'http://localhost:9091/years'
+    queryAPI: 'https://lcwn2tkilc.execute-api.eu-west-1.amazonaws.com/prod/query',
+    yearsAPI: 'https://lcwn2tkilc.execute-api.eu-west-1.amazonaws.com/prod/years'
 };
