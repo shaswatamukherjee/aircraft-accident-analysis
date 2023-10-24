@@ -1,0 +1,20 @@
+body {
+    font-family: Arial;
+    background: $color-brand-sand;
+  }
+  
+  /* Header/Blog Title */
+  .header {
+    background-color: $color-brand-blueberry;
+    padding: $spacing-8;
+    text-align: center;
+    color: $color-brand-white;
+    margin-bottom: $spacing-8;
+  }
+  
+  .header h1 {
+    font-size: $font-size-32;
+  }
+  .map-section {
+    display: flex;
+  }

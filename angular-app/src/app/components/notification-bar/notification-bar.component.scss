@@ -1,0 +1,45 @@
+.notification-bar {
+    padding: $spacing-16 3.5rem;
+    position: relative;
+    background-color: $color-gray-5;
+  
+    &__icon {
+      position: absolute;  
+      top: $spacing-16;  
+      left: $spacing-16;  
+      width: 1.5rem;  
+      height: 1.5rem;
+    }
+  
+    &__title {
+      margin: 0;
+      font-size: $font-size-16;
+      line-height: $line-height-24;
+      font-family: $font-family-medium;
+      font-weight: normal;
+    }
+  
+    &__text {
+      margin: 0;
+      font-size: $font-size-16;
+      line-height: $line-height-24;
+      font-family: $font-family-regular;
+      font-weight: normal;
+    }
+  
+    &--error {
+      background-color: $color-error-secondary;
+    }
+  
+    &.notification-bar--error {
+      .notification-bar__icon {
+        fill: $color-error-primary;
+      }
+    }
+    // information
+    &.notification-bar--information {
+      .notification-bar__icon {
+        fill: $color-brand-blue;
+      }
+    }
+  }

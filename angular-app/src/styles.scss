@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+@import '_variables.scss';
+@import '~leaflet/dist/leaflet.css';
+@import "src/app/app.component.scss";
+@import "src/app/components/notification-bar/notification-bar.component.scss";
+@import "src/app/components/year-picker/year-picker.component.scss";
+@import "src/app/components/map/map.component.scss";
+@import "src/app/components/loader/loader.component.scss";

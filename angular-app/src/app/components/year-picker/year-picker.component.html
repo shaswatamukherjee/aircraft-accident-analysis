@@ -1,0 +1,6 @@
+<div class="year-picker">
+  <label for="year">Accidents for a year</label>
+  <select id="year" [(value)]="selectedValue" (change)="onSelectYear($event.target.value)">
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+</div>

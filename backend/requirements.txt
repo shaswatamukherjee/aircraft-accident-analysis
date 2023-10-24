@@ -1,0 +1,7 @@
+aws-cdk-lib==2.101.1
+constructs>=10.0.0,<11.0.0
+boto3==1.18.31
+pandas==2.0.3
+numpy==1.24.4
+pytz==2023.3
+tzdata==2023.3

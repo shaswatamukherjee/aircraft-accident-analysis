@@ -1,0 +1,24 @@
+.year-picker {
+  display: flex;
+  flex-direction: center;
+  justify-content: flex-start;
+  gap: $spacing-8;
+  margin: $spacing-16;
+}
+
+label {
+  margin: 0;
+  font-size: $font-size-16;
+  line-height: $line-height-24;
+  font-family: $font-family-medium;
+  font-weight: normal;
+}
+
+select {
+  margin: auto 0;
+  width: 100px;
+  font-size: $font-size-16;
+  line-height: $line-height-24;
+  font-family: $font-family-medium;
+  font-weight: normal;
+}

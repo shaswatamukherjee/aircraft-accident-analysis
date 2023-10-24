@@ -1,0 +1,11 @@
+<div class="header">
+    <h1>Aircraft accident analysis</h1>
+</div>
+<app-loader *ngIf="showLoader"></app-loader>
+<section *ngIf="!showError; else errorNotification">
+    <app-year-picker (selectedYear)="onYearSelected($event)"></app-year-picker>
+    <app-map [selectedYear]="selectedYear"></app-map>
+</section>
+<ng-template #errorNotification>
+    <app-notification-bar [text]="errorMessage"></app-notification-bar>
+</ng-template>
